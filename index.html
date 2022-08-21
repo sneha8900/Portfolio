@@ -395,7 +395,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-6 animate" data-animate="fadeInUp">
-                                        <form id="ajax-contact" action="#" method="post">
+                                        <form  method="post"   name="google-sheet">
                                             <div class="input-field">
                                                 <input type="text" class="form-control" name="name" id="name" required placeholder="Name">
                                             </div>
@@ -407,6 +407,24 @@
                                             </div>
                                             <button class="btn" type="submit">Submit</button>
                                         </form>
+                                        <script>
+                                            const scriptURL = 'https://script.google.com/macros/s/AKfycbwMJydSnmEw1VdwhXLzQawuEZa_wiTSVI3hCSIQEwlRam390jtHNuo_dASbILIa4yR0sg/exec'
+                                            const form = document.forms['google-sheet']
+                                            
+                                            form.addEventListener('submit', e => {
+                                            document.getElementById("form-messages").innerText = "Submitting...."
+                                              e.preventDefault()
+                                              fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                                                .then(response => {
+                                                document.getElementById("form-messages").innerText = "Successfully submitted"; 
+                                                document.getElementById("form-messages").classList.add("bg-success");
+                                                form.reset()
+                                            })
+                                            .catch(error => {document.getElementById("form-messages").innerText = "Error Occured please try again"
+                                                document.getElementById("form-messages").classList.add("bg-danger");
+                                            console.log(error)}
+                                            )})
+                                          </script>
                                         <div id="form-messages" class="mt-3"></div>
                                     </div>
                                 </div>
